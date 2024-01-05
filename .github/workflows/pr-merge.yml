@@ -19,7 +19,7 @@ jobs:
         uses: dart-lang/setup-dart@v1
 
       - name: Get Dependencies
-        run: dart pub get
+        run: flutter pub get
 
       - name: Get PR Details
         id: pr_details
