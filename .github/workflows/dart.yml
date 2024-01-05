@@ -3,7 +3,7 @@ name: Commit Notification
 on:
   push:
     branches:
-      - development
+      - main
   pull_request:
     types:
       - closed
