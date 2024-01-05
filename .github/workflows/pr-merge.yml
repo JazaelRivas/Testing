@@ -15,11 +15,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
       - name: Set up Dart
         uses: dart-lang/setup-dart@v1
 
-      - name: Get Dependencies
-        run: flutter pub get
+      - name: Get Dart dependencies
+        run: dart pub get
 
       - name: Get PR Details
         id: pr_details

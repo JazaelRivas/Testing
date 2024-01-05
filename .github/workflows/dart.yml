@@ -11,18 +11,31 @@ on:
 jobs:
   notify-commit:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .github/notion-version/merge-info.dart
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: Get Dart dependencies
+        run: dart pub get
 
       - name: Get PR Details
         id: pr_details
         run: echo "::set-output name=author::${{ github.event.pull_request.user.login }}::set-output name=title::${{ github.event.pull_request.title }}::set-output name=date::${{ github.event.pull_request.updated_at }}"
 
+      - name: Grant execute permissions
+        run: chmod +x .github/notion-version/merge-info.dart
+      
       - name: Send Commit Notification to Notion
         run: dart .github/notion-version/merge-info.dart
         env:
