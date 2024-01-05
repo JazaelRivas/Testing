@@ -1,9 +1,6 @@
 name: Commit Notification
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     types:
       - closed
@@ -11,6 +8,7 @@ on:
 jobs:
   notify-commit:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -23,6 +21,12 @@ jobs:
       - name: Get Flutter dependencies
         run: flutter pub get
 
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: Get Dart dependencies
+        run: dart pub get
+
       - name: Get PR Details
         id: pr_details
         run: echo "::set-output name=author::${{ github.event.pull_request.user.login }}::set-output name=title::${{ github.event.pull_request.title }}::set-output name=date::${{ github.event.pull_request.updated_at }}"
@@ -34,7 +38,7 @@ jobs:
         run: dart .github/notion-version/merge-info.dart
         env:
           ACTION: MERGE
-          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          COMMIT_MESSAGE: ${{ github.event.pull_request.head.sha }}
           PR_AUTHOR: ${{ steps.pr_details.outputs.author }}
           PR_TITLE: ${{ steps.pr_details.outputs.title }}
           PR_DATE: ${{ steps.pr_details.outputs.date }}
