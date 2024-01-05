@@ -20,7 +20,7 @@ dependencies:
   path_provider: ^2.0.15
   flutter_dotenv: ^5.0.2
   jwt_decoder: ^2.0.1
-  http: ^0.13.5
+  http: ^1.1.2
   device_info_plus: ^9.0.3
   package_info_plus: ^4.2.0
   animated_snack_bar: ^0.3.1
@@ -31,6 +31,7 @@ dependencies:
   status_alert: ^1.0.1
   syncfusion_flutter_charts: ^23.2.6
   timer_builder: ^2.0.0
+  yaml: ^3.1.2
 
 dev_dependencies:
   flutter_test:
