@@ -23,12 +23,6 @@ jobs:
       - name: Get Flutter dependencies
         run: flutter pub get
 
-      - name: Set up Dart
-        uses: dart-lang/setup-dart@v1
-
-      - name: Get Dart dependencies
-        run: dart pub get
-
       - name: Get PR Details
         id: pr_details
         run: echo "::set-output name=author::${{ github.event.pull_request.user.login }}::set-output name=title::${{ github.event.pull_request.title }}::set-output name=date::${{ github.event.pull_request.updated_at }}"
