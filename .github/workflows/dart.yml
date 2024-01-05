@@ -29,8 +29,11 @@ jobs:
 
       - name: Get PR Details
         id: pr_details
-        run: echo "::set-output name=author::${{ github.event.pull_request.user.login }}::set-output name=title::${{ github.event.pull_request.title }}::set-output name=date::${{ github.event.pull_request.updated_at }}"
-
+        run: |
+          echo "::set-output name=author::${{ github.event.pull_request.user.login }}"
+          echo "::set-output name=title::${{ github.event.pull_request.title }}"
+          echo "::set-output name=date::${{ github.event.pull_request.updated_at }}"
+      
       - name: Grant execute permissions
         run: chmod +x .github/notion-version/merge-info.dart
       
