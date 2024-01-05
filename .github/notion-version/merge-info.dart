@@ -70,7 +70,7 @@ void main() async {
     switch (action) {
       case 'MERGE':
         return '''
-        <b>🤖 PR Merged! 🔥</b>
+        <b>🤖 PR Merged! ch 🔥</b>
         <b>Author:</b> $prAuthor
         <b>Title:</b> $prTitle
         <b>Date:</b> $prDate
