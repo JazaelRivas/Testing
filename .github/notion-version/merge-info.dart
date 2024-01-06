@@ -67,6 +67,10 @@ void main() async {
   String getMessageContent() {
     if (action == null) {
       return 'Default message for null action';
+
+    }
+
+
     switch (action) {
       case 'MERGE':
         return '''
@@ -97,7 +101,7 @@ void main() async {
     'Notion-Version': '2022-06-28',
   };
 
-   final data = {
+  final data = {
     "parent": {
       "database_id": databaseId,
     },
@@ -122,7 +126,7 @@ void main() async {
         "rich_text": [
           {
             'type': 'text',
-            'text': {'content': "Supervisor"}
+            'text': {'content': "Supervisor App"}
           }
         ]
       },
@@ -154,6 +158,7 @@ void main() async {
   };
 
 
+
   try {
     // Obtén los mensajes de los commits y agrégales a la propiedad "Commit"
     List<String> commitMessages = commitMessage!.split('\n'); // Utiliza ! para indicar que commitMessage no es nulo
@@ -169,9 +174,22 @@ void main() async {
 
     data["properties"]["Commit"]["title"] = commitTitles;
 
+
     final response = await http.post(
       Uri.parse(notionApiUrl),
       headers: headers,
       body: jsonEncode(data),
     );
+
+    if (response.statusCode == 200) {
+      print('Notification sent to Notion: $messageContent');
+      print('Response body: ${response.body}');
+    } else {
+      print(
+          'Error adding message to Notion. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
+  } catch (error) {
+    print('Error sending notification to Notion: $error');
+  }
 }
