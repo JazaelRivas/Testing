@@ -8,6 +8,7 @@ void main() async {
   const notionApiUrl = 'https://api.notion.com/v1/pages';
   String notionSecret = '';
   String databaseId = '';
+  String formattedDate = '';
   Map<String, String> envVariables = Platform.environment;
   final action = envVariables['ACTION'];
   final commitMessage = envVariables['COMMIT_MESSAGE'];
@@ -68,11 +69,7 @@ void main() async {
       return 'Default message for null action';
     }
 
-    String formattedDate = '';
-    if (prDate != null) {
-      final DateTime parsedDate = DateTime.parse(prDate);
-      formattedDate = parsedDate.toLocal().toString().split(' ')[0];
-    }
+  
 
     switch (action) {
       case 'MERGE':
@@ -88,7 +85,7 @@ void main() async {
        
         <b>Author:</b> $prAuthor
         <b>Title:</b> $prTitle
-        <b>Date:</b> $formattedDate
+        <b>Date:</b> $prDate
       ''';
       default:
         throw Exception('Unsupported action: $action');
@@ -154,7 +151,7 @@ void main() async {
         "rich_text": [
           {
             'type': 'text',
-            'text': {'content': formattedDate ?? 'Default Date'}
+            'text': {'content': prDate ?? 'Default Date'}
           }
         ]
       },
