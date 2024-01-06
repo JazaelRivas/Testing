@@ -13,6 +13,15 @@ void main() async {
   final prTitle = envVariables['PR_TITLE'];
   final prAuthor = envVariables['PR_AUTHOR'];
   final prDate = envVariables['PR_DATE'];
+  final prNumber = envVariables['PR_NUMBER'];
+
+  // Verifica si commitMessage no es nulo antes de intentar dividirlo
+  List<String> commitMessages = commitMessage?.split('\n') ?? [];
+
+  // Luego, puedes hacer lo que necesites con la información, por ejemplo, imprimir los mensajes de los commits
+  for (int i = 0; i < commitMessages.length; i++) {
+    print('Commit ${i + 1}: ${commitMessages[i]}');
+  }
 
   Future<Map<String, String>> loadEnvironmentVariables() async {
     String content = File('.env.production').readAsStringSync();
@@ -62,14 +71,10 @@ void main() async {
 
   final appVersion = await getAppVersion();
 
-
-
   String getMessageContent() {
     if (action == null) {
       return 'Default message for null action';
-
     }
-
 
     switch (action) {
       case 'MERGE':
@@ -156,24 +161,7 @@ void main() async {
     },
   };
 
-
-
   try {
-    // Obtén los mensajes de los commits y agrégales a la propiedad "Commit"
-    List<String> commitMessages = commitMessage!.split('\n'); // Utiliza ! para indicar que commitMessage no es nulo
-
-    List<Map<String, dynamic>> commitTitles = [];
-
-    for (String message in commitMessages) {
-      commitTitles.add({
-        'type': 'text',
-        'text': {'content': message.trim()},
-      });
-    }
-
-    data["properties"]["Commit"]["title"] = commitTitles;
-
-
     final response = await http.post(
       Uri.parse(notionApiUrl),
       headers: headers,
