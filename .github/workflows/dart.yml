@@ -42,6 +42,8 @@ jobs:
         run: dart .github/notion-version/merge-info.dart
         env:
           ACTION: MERGE
+
+
           COMMIT_MESSAGE: ${{ join(formatList(github.event.before, '..', github.sha), '\n') }}
           PR_AUTHOR: ${{ steps.pr_details.outputs.author }}
           PR_TITLE: ${{ steps.pr_details.outputs.title }}
