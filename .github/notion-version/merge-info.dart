@@ -78,7 +78,7 @@ void main() async {
       ''';
       case 'PULL_REQUEST_CLOSED':
         return '''
-        <b>🤖 Pull Request Closed! 🚀</b>
+       
         <b>Author:</b> $prAuthor
         <b>Title:</b> $prTitle
         <b>Date:</b> $prDate
