@@ -124,7 +124,7 @@ void main() async {
         "rich_text": [
           {
             'type': 'text',
-            'text': {'content': "Supervisor Title"}
+            'text': {'content': "Supervisor"}
           }
         ]
       },
