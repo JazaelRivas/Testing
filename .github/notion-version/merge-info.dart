@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:yaml/yaml.dart';
-import 'dart:core';
 
 void main() async {
   const notionApiUrl = 'https://api.notion.com/v1/pages';
@@ -64,13 +63,12 @@ void main() async {
 
   final appVersion = await getAppVersion();
 
+
+
   String getMessageContent() {
     if (action == null) {
       return 'Default message for null action';
     }
-
-  
-
     switch (action) {
       case 'MERGE':
         return '''
@@ -93,7 +91,6 @@ void main() async {
   }
 
   String messageContent = getMessageContent();
-  
 
   print(notionSecret);
   final headers = {
@@ -127,7 +124,7 @@ void main() async {
         "rich_text": [
           {
             'type': 'text',
-            'text': {'content': "Supervisor Title"}
+            'text': {'content': "Supervisor"}
           }
         ]
       },
