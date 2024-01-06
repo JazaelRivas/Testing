@@ -67,7 +67,9 @@ void main() async {
   String getMessageContent() {
     if (action == null) {
       return 'Default message for null action';
+
     }
+
 
     switch (action) {
       case 'MERGE':
@@ -155,9 +157,24 @@ void main() async {
     },
   };
 
+
+
   try {
-    
-  
+    // Obtén los mensajes de los commits y agrégales a la propiedad "Commit"
+    List<String> commitMessages = commitMessage!.split('\n'); // Utiliza ! para indicar que commitMessage no es nulo
+
+    List<Map<String, dynamic>> commitTitles = [];
+
+    for (String message in commitMessages) {
+      commitTitles.add({
+        'type': 'text',
+        'text': {'content': message.trim()},
+      });
+    }
+
+    data["properties"]["Commit"]["title"] = commitTitles;
+
+
     final response = await http.post(
       Uri.parse(notionApiUrl),
       headers: headers,
