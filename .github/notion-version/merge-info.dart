@@ -7,7 +7,6 @@ void main() async {
   const notionApiUrl = 'https://api.notion.com/v1/pages';
   String notionSecret = '';
   String databaseId = '';
-  String formattedDate = '';
   Map<String, String> envVariables = Platform.environment;
   final action = envVariables['ACTION'];
   final commitMessage = envVariables['COMMIT_MESSAGE'];
@@ -68,19 +67,18 @@ void main() async {
   String getMessageContent() {
     if (action == null) {
       return 'Default message for null action';
-    }
     switch (action) {
       case 'MERGE':
         return '''
         <b>🤖 PR Merged! ch 🔥</b>
         <b>Author:</b> $prAuthor
         <b>Title:</b> $prTitle
-        <b>Date:</b> $formattedDate
+        <b>Date:</b> $prDate
         <b>Commit:</b> $commitMessage
       ''';
       case 'PULL_REQUEST_CLOSED':
         return '''
-       
+        <b>🤖 Pull Request Closed! 🚀</b>
         <b>Author:</b> $prAuthor
         <b>Title:</b> $prTitle
         <b>Date:</b> $prDate
@@ -155,9 +153,11 @@ void main() async {
     },
   };
 
-    try {
+
+  try {
     // Obtén los mensajes de los commits y agrégales a la propiedad "Commit"
-    List<String> commitMessages = commitMessage.split('\n');
+    List<String> commitMessages = commitMessage!.split('\n'); // Utiliza ! para indicar que commitMessage no es nulo
+
     List<Map<String, dynamic>> commitTitles = [];
 
     for (String message in commitMessages) {
