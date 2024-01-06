@@ -96,6 +96,7 @@ void main() async {
   }
 
   String messageContent = getMessageContent();
+  
 
   print(notionSecret);
   final headers = {
@@ -153,7 +154,7 @@ void main() async {
         "rich_text": [
           {
             'type': 'text',
-            'text': {'content': prDate ?? 'Default Date'}
+            'text': {'content': formattedDate ?? 'Default Date'}
           }
         ]
       },
