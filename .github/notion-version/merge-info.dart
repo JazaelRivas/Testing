@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:yaml/yaml.dart';
+import 'dart:core';
 
 void main() async {
   const notionApiUrl = 'https://api.notion.com/v1/pages';
@@ -67,21 +68,27 @@ void main() async {
       return 'Default message for null action';
     }
 
+    String formattedDate = '';
+    if (prDate != null) {
+      final DateTime parsedDate = DateTime.parse(prDate);
+      formattedDate = parsedDate.toLocal().toString().split(' ')[0];
+    }
+
     switch (action) {
       case 'MERGE':
         return '''
         <b>🤖 PR Merged! ch 🔥</b>
         <b>Author:</b> $prAuthor
         <b>Title:</b> $prTitle
-        <b>Date:</b> $prDate
-        <bCommit:</b> $commitMessage
+        <b>Date:</b> $formattedDate
+        <b>Commit:</b> $commitMessage
       ''';
       case 'PULL_REQUEST_CLOSED':
         return '''
        
         <b>Author:</b> $prAuthor
         <b>Title:</b> $prTitle
-        <b>Date:</b> $prDate
+        <b>Date:</b> $formattedDate
       ''';
       default:
         throw Exception('Unsupported action: $action');
