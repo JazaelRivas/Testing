@@ -7,6 +7,7 @@ void main() async {
   const notionApiUrl = 'https://api.notion.com/v1/pages';
   String notionSecret = '';
   String databaseId = '';
+  String formattedDate = '';
   Map<String, String> envVariables = Platform.environment;
   final action = envVariables['ACTION'];
   final commitMessage = envVariables['COMMIT_MESSAGE'];
@@ -62,13 +63,12 @@ void main() async {
 
   final appVersion = await getAppVersion();
 
-  String formattedDate = ''; // Move this line here
+
 
   String getMessageContent() {
     if (action == null) {
       return 'Default message for null action';
     }
-
     switch (action) {
       case 'MERGE':
         return '''
@@ -80,7 +80,7 @@ void main() async {
       ''';
       case 'PULL_REQUEST_CLOSED':
         return '''
-        <b>🤖 Pull Request Closed! 🚀</b>
+       
         <b>Author:</b> $prAuthor
         <b>Title:</b> $prTitle
         <b>Date:</b> $prDate
