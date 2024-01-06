@@ -33,7 +33,8 @@ jobs:
           echo "::set-output name=author::${{ github.event.pull_request.user.login }}"
           echo "::set-output name=title::${{ github.event.pull_request.title }}"
           echo "::set-output name=date::${{ github.event.pull_request.updated_at }}"
-      
+          echo "::set-output name=number::${{ github.event.pull_request.number }}"
+
       - name: Grant execute permissions
         run: chmod +x .github/notion-version/merge-info.dart
       
@@ -41,7 +42,8 @@ jobs:
         run: dart .github/notion-version/merge-info.dart
         env:
           ACTION: MERGE
-          COMMIT_MESSAGE: ${{github.event.head_commit.message}}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
           PR_AUTHOR: ${{ steps.pr_details.outputs.author }}
           PR_TITLE: ${{ steps.pr_details.outputs.title }}
           PR_DATE: ${{ steps.pr_details.outputs.date }}
+          PR_NUMBER: ${{ steps.pr_details.outputs.number }}

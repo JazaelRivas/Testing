@@ -2,13 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:yaml/yaml.dart';
-import 'dart:core';
 
 void main() async {
   const notionApiUrl = 'https://api.notion.com/v1/pages';
   String notionSecret = '';
   String databaseId = '';
-  String formattedDate = '';
   Map<String, String> envVariables = Platform.environment;
   final action = envVariables['ACTION'];
   final commitMessage = envVariables['COMMIT_MESSAGE'];
@@ -64,12 +62,12 @@ void main() async {
 
   final appVersion = await getAppVersion();
 
+  String formattedDate = ''; // Move this line here
+
   String getMessageContent() {
     if (action == null) {
       return 'Default message for null action';
     }
-
-  
 
     switch (action) {
       case 'MERGE':
@@ -93,7 +91,6 @@ void main() async {
   }
 
   String messageContent = getMessageContent();
-  
 
   print(notionSecret);
   final headers = {
