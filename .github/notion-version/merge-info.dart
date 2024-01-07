@@ -9,7 +9,7 @@ void main() async {
   String databaseId = '';
   Map<String, String> envVariables = Platform.environment;
   final action = envVariables['ACTION'];
-  final commitMessage = envVariables['COMMIT_MESSAGE'];
+  final commitMessages = envVariables['COMMIT_MESSAGES']?.split('%0A') ?? [];
   final prTitle = envVariables['PR_TITLE'];
   final prAuthor = envVariables['PR_AUTHOR'];
   final prDate = envVariables['PR_DATE'];
@@ -68,22 +68,25 @@ void main() async {
       return 'Default message for null action';
     }
 
+    final commitMessagesContent =
+        commitMessages.map((message) => '<b>Commit:</b> $message').join('%0A');
+
     switch (action) {
       case 'MERGE':
         return '''
-      <b>Author:</b> $prAuthor
-      <b>Title:</b> $prTitle
-      <b>Date:</b> $prDate
-      <b>Commits:</b> $commitMessage
-    ''';
+        <b>Author:</b> $prAuthor
+        <b>Title:</b> $prTitle
+        <b>Date:</b> $prDate
+        $commitMessagesContent
+      ''';
       case 'PULL_REQUEST_CLOSED':
         return '''
-      <b>🤖 Pull Request Closed! 🚀</b>
-      <b>Author:</b> $prAuthor
-      <b>Title:</b> $prTitle
-      <b>Date:</b> $prDate
-      <b>Commits:</b> $commitMessage
-    ''';
+        <b>🤖 Pull Request Closed! 🚀</b>
+        <b>Author:</b> $prAuthor
+        <b>Title:</b> $prTitle
+        <b>Date:</b> $prDate
+        $commitMessagesContent
+      ''';
       default:
         throw Exception('Unsupported action: $action');
     }
