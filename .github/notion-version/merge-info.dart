@@ -134,7 +134,7 @@ void main() async {
         "rich_text": [
           {
             'type': 'text',
-            'text': {'content': commitMessage ?? 'Default Message'}
+            'text': {'content': messageContent ?? 'Default Message'}
           }
         ]
       },
