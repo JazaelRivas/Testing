@@ -110,7 +110,7 @@ void main() async {
         "title": [
           {
             'type': 'text',
-            'text': {'content': prTitle ?? 'Default Title of the Pr'}
+            'text': {'content': prTitle ?? 'Default Title Last Commit'}
           }
         ]
       },
