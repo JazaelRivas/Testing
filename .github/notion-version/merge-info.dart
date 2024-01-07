@@ -15,7 +15,6 @@ void main() async {
   final prDate = envVariables['PR_DATE'];
   final prNumber = envVariables['PR_NUMBER'];
 
-
   Future<Map<String, String>> loadEnvironmentVariables() async {
     String content = File('.env.production').readAsStringSync();
 
@@ -72,18 +71,19 @@ void main() async {
     switch (action) {
       case 'MERGE':
         return '''
-        <b>Author:</b> $prAuthor
-        <b>Title:</b> $prTitle
-        <b>Date:</b> $prDate
-        <b>Commit:</b> $commitMessage
-      ''';
+      <b>Author:</b> $prAuthor
+      <b>Title:</b> $prTitle
+      <b>Date:</b> $prDate
+      <b>Commits:</b> $commitMessage
+    ''';
       case 'PULL_REQUEST_CLOSED':
         return '''
-        <b>🤖 Pull Request Closed! 🚀</b>
-        <b>Author:</b> $prAuthor
-        <b>Title:</b> $prTitle
-        <b>Date:</b> $prDate
-      ''';
+      <b>🤖 Pull Request Closed! 🚀</b>
+      <b>Author:</b> $prAuthor
+      <b>Title:</b> $prTitle
+      <b>Date:</b> $prDate
+      <b>Commits:</b> $commitMessage
+    ''';
       default:
         throw Exception('Unsupported action: $action');
     }
