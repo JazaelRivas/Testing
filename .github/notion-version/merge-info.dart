@@ -9,7 +9,8 @@ void main() async {
   String databaseId = '';
   Map<String, String> envVariables = Platform.environment;
   final action = envVariables['ACTION'];
-  final commitMessages = envVariables['COMMIT_MESSAGES']?.split('%0A') ?? [];
+  final commitMessagesContent =
+      commitMessages.map((message) => '<b>Commit:</b> $message').join('%0A');
   final prTitle = envVariables['PR_TITLE'];
   final prAuthor = envVariables['PR_AUTHOR'];
   final prDate = envVariables['PR_DATE'];
