@@ -21,7 +21,7 @@ jobs:
 
       - name: 'Print Commit List'
         run: |
-          COMMIT_LIST=$(git log --oneline --format="%s")
+          COMMIT_LIST=$(git log --oneline --format="%s" | sed 's/"/\\"/g; s/'\''/\\'\''/g')
           echo "Commit Titles: $COMMIT_LIST"
           echo "COMMIT_LIST=$COMMIT_LIST" >> $GITHUB_ENV
 
