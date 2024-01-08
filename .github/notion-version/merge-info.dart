@@ -9,7 +9,7 @@ void main() async {
   String databaseId = '';
   Map<String, String> envVariables = Platform.environment;
   final action = envVariables['ACTION'];
-  final commitMessages = envVariables['COMMIT_MESSAGES']?.split('%0A') ?? [];
+  final commitMessage = envVariables['COMMIT_MESSAGES'];
   final prTitle = envVariables['PR_TITLE'];
   final prAuthor = envVariables['PR_AUTHOR'];
   final prDate = envVariables['PR_DATE'];
@@ -38,6 +38,36 @@ void main() async {
 
     return {'notionSecret': notionSecret, 'databaseId': databaseId};
   }
+
+  Future<String> getCommitTitles() async {
+    final List<String> commitTitles = [];
+
+    try {
+      final ProcessResult result = await Process.run(
+        'git',
+        [
+          'log',
+          '--pretty=format:%s',
+          '${envVariables['GITHUB_EVENT_BEFORE'] ?? ''}..${envVariables['GITHUB_SHA'] ?? ''}'
+        ],
+        stdoutEncoding: utf8,
+        stderrEncoding: utf8,
+      );
+
+      if (result.exitCode == 0) {
+        final String output = result.stdout.toString();
+        commitTitles.addAll(output.split('\n').where((line) => line.isNotEmpty));
+      } else {
+        print('Error getting commit titles: ${result.stderr}');
+      }
+    } catch (error) {
+      print('Error getting commit titles: $error');
+    }
+
+    return commitTitles.join('%0A');
+  }
+
+  final commitMessages = await getCommitTitles();
 
   Future<String> getAppVersion() async {
     final pubspecFile = File('pubspec.yaml');
@@ -74,7 +104,7 @@ void main() async {
        $prAuthor
        $prTitle
        $prDate
-       $commitMessages
+       $commitMessage
        ''';
       case 'PULL_REQUEST_CLOSED':
         return '''
@@ -82,7 +112,7 @@ void main() async {
        $prAuthor
          $prTitle
         $prDate
-        $commitMessages
+        $commitMessage
       ''';
       default:
         throw Exception('Unsupported action: $action');
@@ -115,7 +145,7 @@ void main() async {
         "rich_text": [
           {
             'type': 'text',
-            'text': {'content': appVersion ?? 'Default Version'}
+            'text': {'content': appVersion}
           }
         ]
       },
@@ -131,7 +161,7 @@ void main() async {
         "rich_text": [
           {
             'type': 'text',
-            'text': {'content': messageContent ?? 'Default Message'}
+            'text': {'content': commitMessages}
           }
         ]
       },
