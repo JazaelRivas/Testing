@@ -17,29 +17,8 @@ void main() async {
   final notionDB = envVariables['NOTION_DB'];
   final notionSecret = envVariables['NOTION_SECRET'];
 
-  // Future<Map<String, String>> loadEnvironmentVariables() async {
-  //   String content = File('.env.production').readAsStringSync();
-
-  //   Map<String, String> environmentVariables = {};
-
-  //   content.split('\n').forEach((line) {
-  //     List<String> parts = line.split('=');
-
-  //     if (parts.length >= 2 && !line.trim().startsWith('#')) {
-  //       String key = parts[0].trim();
-  //       String value = parts.sublist(1).join('=').trim();
-
-  //       environmentVariables[key] = value;
-  //     }
-  //   });
-
-  //   notionSecret = environmentVariables['NOTION_SECRET'] ??
-  //       (throw Exception('NOTION_SECRET is not defined in .env.production'));
-  //   databaseId = environmentVariables['NOTION_DB'] ??
-  //       (throw Exception('NOTION_DB is not defined in .env.production'));
-
-  //   return {'notionSecret': notionSecret, 'databaseId': databaseId};
-  // }
+  print('NOTION_DB: $notionDB');
+  print('NOTION_SECRET: $notionSecret');
 
   Future<String> getAppVersion() async {
     final pubspecFile = File('pubspec.yaml');
@@ -54,11 +33,6 @@ void main() async {
     print('App version: $appVersion');
     return appVersion;
   }
-
-  //final environmentVariables = await loadEnvironmentVariables();
-
-  // notionSecret = environmentVariables['notionSecret'] ?? '';
-  // databaseId = environmentVariables['databaseId'] ?? '';
 
   final appVersion = await getAppVersion();
 
