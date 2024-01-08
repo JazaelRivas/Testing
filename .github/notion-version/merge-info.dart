@@ -39,33 +39,43 @@ void main() async {
     return {'notionSecret': notionSecret, 'databaseId': databaseId};
   }
 
-  Future<String> getCommitTitles() async {
-    final List<String> commitTitles = [];
+ Future<String> getCommitTitles() async {
+  final List<String> commitTitles = [];
 
-    try {
-      final ProcessResult result = await Process.run(
-        'git',
-        [
-          'log',
-          '--pretty=format:%s',
-          '${envVariables['GITHUB_EVENT_BEFORE'] ?? ''}..${envVariables['GITHUB_SHA'] ?? ''}'
-        ],
-        stdoutEncoding: utf8,
-        stderrEncoding: utf8,
-      );
+  try {
+    final ProcessResult result = await Process.run(
+      'git',
+      [
+        'log',
+        '--pretty=format:%s',
+        '${envVariables['GITHUB_EVENT_BEFORE'] ?? ''}.${envVariables['GITHUB_SHA'] ?? ''}'
+      ],
+      stdoutEncoding: utf8,
+      stderrEncoding: utf8,
+    );
 
-      if (result.exitCode == 0) {
-        final String output = result.stdout.toString();
-        commitTitles.addAll(output.split('\n').where((line) => line.isNotEmpty));
-      } else {
-        print('Error getting commit titles: ${result.stderr}');
+    if (result.exitCode == 0) {
+      final String output = result.stdout.toString();
+      commitTitles.addAll(output.split('\n').where((line) => line.isNotEmpty));
+
+      
+      final List<String> prCommits = [];
+      for (String commit in commitTitles) {
+        if (commit.contains('Merge pull request')) {
+          prCommits.add(commit);
+        }
       }
-    } catch (error) {
-      print('Error getting commit titles: $error');
-    }
 
-    return commitTitles.join('%0A');
+      return prCommits.join('%0A');
+    } else {
+      print('Error getting commit titles: ${result.stderr}');
+    }
+  } catch (error) {
+    print('Error getting commit titles: $error');
   }
+
+  return '';
+}
 
   final commitMessages = await getCommitTitles();
 
