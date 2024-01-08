@@ -61,7 +61,7 @@ void main() async {
   final appVersion = await getAppVersion();
 
   String? commitListFormatted = commitList?.replaceAll('\\n', '\n');
-  print(commitListFormatted)
+  print(commitListFormatted);
   String getMessageContent() {
     if (action == null) {
       return 'Default message for null action';
