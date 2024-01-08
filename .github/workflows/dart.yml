@@ -30,14 +30,18 @@ jobs:
       - name: Extract commit titles
         id: extract-titles
         run: |
-          # Obtener el SHA del commit inicial del pull request
+          # Get the SHA of the base commit of the pull request
           BASE_COMMIT=$(git rev-list -n 1 ${{ github.sha }})
 
-          # Obtener los títulos de los commits desde el commit inicial hasta el último commit del pull request
-          COMMIT_TITLES=$(git log --pretty=format:"%s" $BASE_COMMIT..${{ github.sha }})
+          echo "Initial Commit SHA: $BASE_COMMIT"
+
+          # Get the titles of all commits from the base commit to the current commit
+          COMMIT_TITLES=$(git log --pretty=format:"%H %s" $BASE_COMMIT..${{ github.sha }})
 
           echo "Commit Titles: $COMMIT_TITLES"
           echo "::set-output name=commit_titles::$COMMIT_TITLES"
+
+
 
       - name: Grant execute permissions
         run: chmod +x .github/notion-version/merge-info.dart
