@@ -25,14 +25,11 @@ jobs:
           echo -e "Commit Titles: $COMMIT_LIST"
           echo "COMMIT_LIST=$COMMIT_LIST" >> $GITHUB_ENV
 
-      - name: Access Notion Database
+      - name: Debug Notion Secrets
         run: |
-          echo "Notion Database: ${{ secrets.NOTION_DB }}"
-
-      - name: Access Notion Keys
-        run: |
+            echo "Notion Database: ${{ secrets.NOTION_DB }}"
             echo "Notion Keys: ${{ secrets.NOTION_SECRET }}"
-          
+            echo "Notion Keys: ${{ secrets.GITHUB_TOKEN }}"
       - name: 'Set up Flutter'
         uses: subosito/flutter-action@v2
         with:
