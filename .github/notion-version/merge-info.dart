@@ -123,7 +123,7 @@ void main() async {
         "title": [
           {
             'type': 'text',
-            'text': {'content': prTitle ?? 'Default Title'}
+            'text': {'content': prTitle ?? 'Default Title :)'}
           }
         ]
       },
