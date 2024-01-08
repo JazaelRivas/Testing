@@ -5,8 +5,7 @@ import 'package:yaml/yaml.dart';
 
 void main() async {
   const notionApiUrl = 'https://api.notion.com/v1/pages';
-  // String notionSecret = '';
-  //String databaseId = '';
+
   Map<String, String> envVariables = Platform.environment;
   final action = envVariables['ACTION'];
   final commitList = envVariables['COMMIT_LIST'];
@@ -37,7 +36,7 @@ void main() async {
   final appVersion = await getAppVersion();
 
   String? commitListFormatted = commitList?.replaceAll('\\n', '\n');
-  print(commitListFormatted);
+
   String getMessageContent() {
     if (action == null) {
       return 'Default message for null action';
