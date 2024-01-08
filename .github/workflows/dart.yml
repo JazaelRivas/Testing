@@ -46,7 +46,7 @@ jobs:
         run: dart .github/notion-version/merge-info.dart
         env:
           ACTION: MERGE
-          COMMIT_LIST: ${{ env.COMMIT_LIST }}"
+          COMMIT_LIST: ${{ env.COMMIT_LIST }}
           PR_AUTHOR: ${{ github.actor }}
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_DATE: ${{ github.event.pull_request.updated_at }}
