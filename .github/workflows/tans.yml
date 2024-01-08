@@ -3,7 +3,7 @@ name: Commit Notification
 on:
   push:
     branches:
-      - development
+      - main
 
 jobs:
   notify-commit:
