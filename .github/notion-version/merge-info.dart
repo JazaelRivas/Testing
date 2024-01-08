@@ -58,8 +58,7 @@ void main() async {
   notionSecret = environmentVariables['notionSecret'] ?? '';
   databaseId = environmentVariables['databaseId'] ?? '';
 
-  print('notionSecret: $notionSecret');
-  print('databaseId: $databaseId');
+ 
 
   final appVersion = await getAppVersion();
 
@@ -89,7 +88,7 @@ void main() async {
 
   String messageContent = getMessageContent();
 
-  print(notionSecret);
+
   final headers = {
     'Authorization': 'Bearer $notionSecret',
     'Content-Type': 'application/json',
