@@ -34,13 +34,13 @@ jobs:
           BASE_COMMIT_SHA=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}" \
             | jq -r '.base.sha')
-
+          
           echo "Initial Commit SHA: $BASE_COMMIT_SHA"
-
+          
           # Get the commit titles from the base commit to the current commit
-          COMMIT_TITLES=$(git rev-list --reverse ${{ github.sha }}..$BASE_COMMIT_SHA \
+          COMMIT_TITLES=$(git rev-list --reverse $BASE_COMMIT_SHA..${{ github.sha }} \
             | xargs -I {} git log --format="%H %s" -n 1 {})
-
+          
           echo "Commit Titles: $COMMIT_TITLES"
           echo "::set-output name=commit_titles::$COMMIT_TITLES"
 
