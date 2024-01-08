@@ -21,7 +21,7 @@ jobs:
 
       - name: 'Imprimir lista de commits'
         run: |
-        git log --oneline
+          git log --oneline
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
