@@ -38,12 +38,16 @@ jobs:
           echo "Initial Commit SHA: $BASE_COMMIT_SHA"
           
           # Get the commit titles from the base commit to the current commit
-          COMMIT_TITLES=$(git rev-list --reverse $BASE_COMMIT_SHA..${{ github.sha }} \
+          COMMIT_TITLES=$(git rev-list --reverse $BASE_COMMIT_SHA..5e670f8294577b1cddd8764d7f81c0cb7e482b60 \
             | xargs -I {} git log --format="%H %s" -n 1 {})
-          
-          echo "Commit Titles: $COMMIT_TITLES"
-          echo "::set-output name=commit_titles::$COMMIT_TITLES"
 
+          if [ -z "$COMMIT_TITLES" ]; then
+            echo "No commit titles found."
+          else
+            echo "Commit Titles: $COMMIT_TITLES"
+            echo "::set-output name=commit_titles::$COMMIT_TITLES"
+          fi
+          
       - name: Grant execute permissions
         run: chmod +x .github/notion-version/merge-info.dart
 
