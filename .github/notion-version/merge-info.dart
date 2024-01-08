@@ -48,7 +48,7 @@ void main() async {
       [
         'log',
         '--pretty=format:%s',
-        '${envVariables['GITHUB_EVENT_BEFORE'] ?? ''}.${envVariables['GITHUB_SHA'] ?? ''}'
+        '${envVariables['GITHUB_SHA'] ?? ''}.${envVariables['GITHUB_SHA'] ?? ''}'
       ],
       stdoutEncoding: utf8,
       stderrEncoding: utf8,
@@ -58,10 +58,10 @@ void main() async {
       final String output = result.stdout.toString();
       commitTitles.addAll(output.split('\n').where((line) => line.isNotEmpty));
 
-      
+      // Filtrar solo los commits del pull request actual
       final List<String> prCommits = [];
       for (String commit in commitTitles) {
-        if (commit.contains('Merge pull request')) {
+        if (commit.contains('Merge pull request') || commit.contains('fix:')) {
           prCommits.add(commit);
         }
       }
@@ -76,6 +76,8 @@ void main() async {
 
   return '';
 }
+
+
 
   final commitMessages = await getCommitTitles();
 
