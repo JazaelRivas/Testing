@@ -31,7 +31,7 @@ jobs:
         id: extract-titles
         run: |
           # Obtener el SHA del commit inicial del pull request
-          BASE_COMMIT=$(git rev-list -n 1 ${{ github.event.before }})
+          BASE_COMMIT=$(git rev-list -n 1 ${{ github.sha }})
 
           # Obtener los títulos de los commits desde el commit inicial hasta el último commit del pull request
           COMMIT_TITLES=$(git log --pretty=format:"%s" $BASE_COMMIT..${{ github.sha }})
