@@ -19,6 +19,10 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: ${{ env.PR_FETCH_DEPTH }}
 
+      - name: 'Imprimir lista de commits'
+        run: |
+        git log --oneline
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
