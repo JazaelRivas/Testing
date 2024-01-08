@@ -28,14 +28,14 @@ jobs:
         run: dart pub get
 
       - name: Obtener información del PR
-            run: |
-              PR_URL=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
-              COMMITS_URL="${PR_URL}/commits"
+        run: |
+            PR_URL=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
+            COMMITS_URL="${PR_URL}/commits"
 
-              COMMITS=$(curl -s "$COMMITS_URL" | jq -r '.[].commit.message')
+            COMMITS=$(curl -s "$COMMITS_URL" | jq -r '.[].commit.message')
 
-              echo "Títulos de los commits en el PR:"
-              echo "$COMMIT_TITLES"
+            echo "Títulos de los commits en el PR:"
+            echo "$COMMIT_TITLES"
 
 
       - name: Grant execute permissions
