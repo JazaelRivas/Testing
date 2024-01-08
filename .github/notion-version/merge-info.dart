@@ -9,7 +9,7 @@ void main() async {
   String databaseId = '';
   Map<String, String> envVariables = Platform.environment;
   final action = envVariables['ACTION'];
-  final commitMessage = envVariables['COMMIT_LIST'];
+  final commitList = envVariables['COMMIT_LIST'];
   final prTitle = envVariables['PR_TITLE'];
   final prAuthor = envVariables['PR_AUTHOR'];
   final prDate = envVariables['PR_DATE'];
@@ -70,36 +70,20 @@ void main() async {
 
     switch (action) {
       case 'MERGE':
-        List<String> commitTitles = commitMessage
-                ?.split('\n')
-                ?.map((e) => e.trim())
-                ?.where((e) => e.isNotEmpty)
-                ?.toList() ??
-            [];
-        String commitsContent = commitTitles.join('\n');
-
         return '''
-     ${prAuthor ?? 'Default Author'}
-     ${prTitle ?? 'Default Title'}
-     ${prDate ?? 'Default Date'}
-     $commitsContent
-     ''';
+        <b>🤖 PR Merged! ch 🔥</b>
+        <b>Author:</b> $prAuthor
+        <b>Title:</b> $prTitle
+        <b>Date:</b> $prDate
+        <b>Commit:</b> $commitList
+      ''';
       case 'PULL_REQUEST_CLOSED':
-        List<String> commitTitles = commitMessage
-                ?.split('\n')
-                ?.map((e) => e.trim())
-                ?.where((e) => e.isNotEmpty)
-                ?.toList() ??
-            [];
-        String commitsContent = commitTitles.join('\n');
-
         return '''
-      
-     ${prAuthor ?? 'Default Author'}
-       ${prTitle ?? 'Default Title'}
-      ${prDate ?? 'Default Date'}
-      $commitsContent
-    ''';
+        <b>🤖 Pull Request Closed! 🚀</b>
+        <b>Author:</b> $prAuthor
+        <b>Title:</b> $prTitle
+        <b>Date:</b> $prDate
+      ''';
       default:
         throw Exception('Unsupported action: $action');
     }
@@ -144,12 +128,12 @@ void main() async {
         ]
       },
       "Mensaje": {
-        "rich_text": (commitMessage ?? '').split('\n').map((title) {
-          return {
+        "rich_text": [
+          {
             'type': 'text',
-            'text': {'content': title.trim()},
-          };
-        }).toList(),
+            'text': {'content': commitList ?? 'Default Author'}
+          }
+        ]
       },
       "Autor": {
         "rich_text": [
@@ -172,7 +156,7 @@ void main() async {
 
   try {
     print('Commit Titles to be sent to Notion:');
-    print(commitMessage);
+    print(messageContent);
 
     final response = await http.post(
       Uri.parse(notionApiUrl),
