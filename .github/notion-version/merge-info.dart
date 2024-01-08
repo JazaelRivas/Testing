@@ -68,24 +68,21 @@ void main() async {
       return 'Default message for null action';
     }
 
-    final commitMessagesContent =
-        commitMessages.map((message) => '<b>Commit:</b> $message').join('%0A');
-
     switch (action) {
       case 'MERGE':
         return '''
-        <b>Author:</b> $prAuthor
-        <b>Title:</b> $prTitle
-        <b>Date:</b> $prDate
-        $commitMessagesContent
-      ''';
+       $prAuthor
+       $prTitle
+       $prDate
+       $commitMessages
+       ''';
       case 'PULL_REQUEST_CLOSED':
         return '''
-        <b>🤖 Pull Request Closed! 🚀</b>
-        <b>Author:</b> $prAuthor
-        <b>Title:</b> $prTitle
-        <b>Date:</b> $prDate
-        $commitMessagesContent
+        
+       $prAuthor
+         $prTitle
+        $prDate
+        $commitMessages
       ''';
       default:
         throw Exception('Unsupported action: $action');

@@ -43,9 +43,10 @@ jobs:
         run: |
           COMMIT_MESSAGES=""
           for commit in $(git rev-list --reverse "${{ github.event.before }}..${{ github.sha }}"); do
-            COMMIT_MESSAGES="$COMMIT_MESSAGES$(git log --format=%B -n 1 $commit)%0A"
+          COMMIT_MESSAGES="$COMMIT_MESSAGES$(git log --format=%B -n 1 $commit)%0A"
           done
-          echo "::set-output name=commit_messages::${COMMIT_MESSAGES}"
+          echo "::set-output name=commit_messages::$COMMIT_MESSAGES"
+
 
       - name: Send Commit Notification to Notion
         run: dart .github/notion-version/merge-info.dart
