@@ -30,8 +30,7 @@ jobs:
       - name: Extraer títulos de commits
         id: extract-titles
         run: |
-          PR_NUMBER=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
-          COMMIT_TITLES=$(git log --pretty=format:"%s" -- $PR_NUMBER)
+          COMMIT_TITLES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
           echo "Commit Titles: $COMMIT_TITLES"
           echo "::set-output name=commit_titles::$COMMIT_TITLES"
 
