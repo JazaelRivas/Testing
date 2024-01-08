@@ -27,7 +27,7 @@ jobs:
       - name: Get Dart dependencies
         run: dart pub get
 
-      - name: Extraer títulos de commits
+      - name: Extract commit titles
         id: extract-titles
         run: |
           COMMIT_TITLES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
@@ -41,8 +41,8 @@ jobs:
         run: dart .github/notion-version/merge-info.dart
         env:
           ACTION: MERGE
-          COMMIT_TITLES: ${{ steps.commit_titles.outputs.commit_titles }}
-          PR_AUTHOR: ${{ steps.pr_details.outputs.author }}
-          PR_TITLE: ${{ steps.pr_details.outputs.title }}
-          PR_DATE: ${{ steps.pr_details.outputs.date }}
-          PR_NUMBER: ${{ steps.pr_details.outputs.number }}
+          COMMIT_TITLES: ${{ steps.extract-titles.outputs.commit_titles }}
+          PR_AUTHOR: ${{ github.actor }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_DATE: ${{ github.event.pull_request.updated_at }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
