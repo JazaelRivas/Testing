@@ -21,9 +21,9 @@ jobs:
 
       - name: 'Print Commit List'
         run: |
-          COMMIT_LIST=$(git log --oneline --format="%s" | sed 's/"/\\"/g; s/'\''/\\'\''/g')
+          COMMIT_LIST=$(git log --oneline )
           echo "Commit Titles: $COMMIT_LIST"
-          echo "COMMIT_LIST=\"$COMMIT_LIST\"" >> $GITHUB_ENV
+          echo "COMMIT_LIST=$COMMIT_LIST" >> $GITHUB_ENV
 
       - name: 'Set up Flutter'
         uses: subosito/flutter-action@v2
