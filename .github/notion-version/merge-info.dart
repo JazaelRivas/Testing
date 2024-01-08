@@ -85,7 +85,6 @@ void main() async {
      $commitsContent
      ''';
       case 'PULL_REQUEST_CLOSED':
-       
         List<String> commitTitles = commitMessage
                 ?.split('\n')
                 ?.map((e) => e.trim())
@@ -172,6 +171,10 @@ void main() async {
   };
 
   try {
+    // Log los títulos de los commits antes de enviar la notificación a Notion
+    print('Commit Titles to be sent to Notion:');
+    print(commitMessage);
+
     final response = await http.post(
       Uri.parse(notionApiUrl),
       headers: headers,
