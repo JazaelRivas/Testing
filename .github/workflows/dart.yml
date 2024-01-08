@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     steps:
-      - name: 'PR commits + 1'
+      - name: 'PR commits '
         run: echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} ))" >> "${GITHUB_ENV}"
 
       - name: 'Checkout PR branch and all PR commits'
