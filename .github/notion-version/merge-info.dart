@@ -70,20 +70,37 @@ void main() async {
 
     switch (action) {
       case 'MERGE':
+        List<String> commitTitles = commitMessage
+                ?.split('\n')
+                ?.map((e) => e.trim())
+                ?.where((e) => e.isNotEmpty)
+                ?.toList() ??
+            [];
+        String commitsContent = commitTitles.join('\n');
+
         return '''
-       $prAuthor
-       $prTitle
-       $prDate
-       $commitMessage
-       ''';
+     ${prAuthor ?? 'Default Author'}
+     ${prTitle ?? 'Default Title'}
+     ${prDate ?? 'Default Date'}
+     $commitsContent
+     ''';
       case 'PULL_REQUEST_CLOSED':
+       
+        List<String> commitTitles = commitMessage
+                ?.split('\n')
+                ?.map((e) => e.trim())
+                ?.where((e) => e.isNotEmpty)
+                ?.toList() ??
+            [];
+        String commitsContent = commitTitles.join('\n');
+
         return '''
-        
-       $prAuthor
-         $prTitle
-        $prDate
-        $commitMessage
-      ''';
+      
+     ${prAuthor ?? 'Default Author'}
+       ${prTitle ?? 'Default Title'}
+      ${prDate ?? 'Default Date'}
+      $commitsContent
+    ''';
       default:
         throw Exception('Unsupported action: $action');
     }
