@@ -42,7 +42,8 @@ jobs:
         id: commit_titles
         run: |
           COMMIT_TITLES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
-          echo "::set-output name=commit_titles::${COMMIT_TITLES}"
+          echo "Commit Titles: $COMMIT_TITLES"
+          echo "::set-output name=commit_titles::$COMMIT_TITLES"
 
       - name: Send Commit Notification to Notion
         run: dart .github/notion-version/merge-info.dart

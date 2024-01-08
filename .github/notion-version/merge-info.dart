@@ -144,12 +144,12 @@ void main() async {
         ]
       },
       "Mensaje": {
-        "rich_text": [
-          {
+        "rich_text": (commitMessage ?? '').split('\n').map((title) {
+          return {
             'type': 'text',
-            'text': {'content': messageContent}
-          }
-        ]
+            'text': {'content': title.trim()},
+          };
+        }).toList(),
       },
       "Autor": {
         "rich_text": [
