@@ -16,9 +16,6 @@ void main() async {
   final notionDB = envVariables['NOTION_DB'];
   final notionSecret = envVariables['NOTION_SECRET'];
 
-  print('NOTION_DB: $notionDB');
-  print('NOTION_SECRET: $notionSecret');
-
   Future<String> getAppVersion() async {
     final pubspecFile = File('pubspec.yaml');
     if (!pubspecFile.existsSync()) {
