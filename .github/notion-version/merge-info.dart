@@ -5,8 +5,8 @@ import 'package:yaml/yaml.dart';
 
 void main() async {
   const notionApiUrl = 'https://api.notion.com/v1/pages';
-  String notionSecret = '';
-  String databaseId = '';
+  // String notionSecret = '';
+  //String databaseId = '';
   Map<String, String> envVariables = Platform.environment;
   final action = envVariables['ACTION'];
   final commitList = envVariables['COMMIT_LIST'];
@@ -14,30 +14,32 @@ void main() async {
   final prAuthor = envVariables['PR_AUTHOR'];
   final prDate = envVariables['PR_DATE'];
   final prNumber = envVariables['PR_NUMBER'];
+  final notionDB = envVariables['NOTION_DB'];
+  final notionSecret = envVariables['NOTION_SECRET'];
 
-  Future<Map<String, String>> loadEnvironmentVariables() async {
-    String content = File('.env.production').readAsStringSync();
+  // Future<Map<String, String>> loadEnvironmentVariables() async {
+  //   String content = File('.env.production').readAsStringSync();
 
-    Map<String, String> environmentVariables = {};
+  //   Map<String, String> environmentVariables = {};
 
-    content.split('\n').forEach((line) {
-      List<String> parts = line.split('=');
+  //   content.split('\n').forEach((line) {
+  //     List<String> parts = line.split('=');
 
-      if (parts.length >= 2 && !line.trim().startsWith('#')) {
-        String key = parts[0].trim();
-        String value = parts.sublist(1).join('=').trim();
+  //     if (parts.length >= 2 && !line.trim().startsWith('#')) {
+  //       String key = parts[0].trim();
+  //       String value = parts.sublist(1).join('=').trim();
 
-        environmentVariables[key] = value;
-      }
-    });
+  //       environmentVariables[key] = value;
+  //     }
+  //   });
 
-    notionSecret = environmentVariables['NOTION_SECRET'] ??
-        (throw Exception('NOTION_SECRET is not defined in .env.production'));
-    databaseId = environmentVariables['NOTION_DB'] ??
-        (throw Exception('NOTION_DB is not defined in .env.production'));
+  //   notionSecret = environmentVariables['NOTION_SECRET'] ??
+  //       (throw Exception('NOTION_SECRET is not defined in .env.production'));
+  //   databaseId = environmentVariables['NOTION_DB'] ??
+  //       (throw Exception('NOTION_DB is not defined in .env.production'));
 
-    return {'notionSecret': notionSecret, 'databaseId': databaseId};
-  }
+  //   return {'notionSecret': notionSecret, 'databaseId': databaseId};
+  // }
 
   Future<String> getAppVersion() async {
     final pubspecFile = File('pubspec.yaml');
@@ -53,10 +55,10 @@ void main() async {
     return appVersion;
   }
 
-  final environmentVariables = await loadEnvironmentVariables();
+  //final environmentVariables = await loadEnvironmentVariables();
 
-  notionSecret = environmentVariables['notionSecret'] ?? '';
-  databaseId = environmentVariables['databaseId'] ?? '';
+  // notionSecret = environmentVariables['notionSecret'] ?? '';
+  // databaseId = environmentVariables['databaseId'] ?? '';
 
   final appVersion = await getAppVersion();
 
@@ -96,7 +98,7 @@ void main() async {
 
   final data = {
     "parent": {
-      "database_id": databaseId,
+      "database_id": notionDB,
     },
     "properties": {
       "Commit": {

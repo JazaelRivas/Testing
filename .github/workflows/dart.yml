@@ -51,3 +51,6 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_DATE: ${{ github.event.pull_request.updated_at }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          NOTION_DB: ${{ secrets.NOTION_DB }}
+          NOTION_SECRET: ${{ secrets.NOTION_SECRET }}
+
