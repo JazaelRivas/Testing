@@ -153,7 +153,9 @@ void main() async {
   };
 
   try {
-   
+    print('Commit Titles to be sent to Notion:');
+    print(commitList);
+
     final response = await http.post(
       Uri.parse(notionApiUrl),
       headers: headers,
