@@ -71,18 +71,16 @@ void main() async {
     switch (action) {
       case 'MERGE':
         return '''
-        <b>🤖 PR Merged! ch 🔥</b>
-        <b>Author:</b> $prAuthor
-        <b>Title:</b> $prTitle
-        <b>Date:</b> $prDate
-        <b>Commit:</b> $commitList
+        $prAuthor
+        $prTitle
+        $prDate
+        $commitList
       ''';
       case 'PULL_REQUEST_CLOSED':
         return '''
-        <b>🤖 Pull Request Closed! 🚀</b>
-        <b>Author:</b> $prAuthor
-        <b>Title:</b> $prTitle
-        <b>Date:</b> $prDate
+         $prAuthor
+        $prTitle
+         $prDate
       ''';
       default:
         throw Exception('Unsupported action: $action');
@@ -123,7 +121,7 @@ void main() async {
         "rich_text": [
           {
             'type': 'text',
-            'text': {'content': "Supervisor App"}
+            'text': {'content': "App Supervisor"}
           }
         ]
       },
