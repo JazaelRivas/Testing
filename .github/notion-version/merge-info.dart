@@ -58,8 +58,9 @@ void main() async {
   notionSecret = environmentVariables['notionSecret'] ?? '';
   databaseId = environmentVariables['databaseId'] ?? '';
 
-
   final appVersion = await getAppVersion();
+
+  String? commitListFormatted = commitList?.replaceAll('\\n', '\n');
 
   String getMessageContent() {
     if (action == null) {
@@ -72,12 +73,12 @@ void main() async {
         $prAuthor
         $prTitle
         $prDate
-        $commitList
+        $commitListFormatted 
       ''';
       case 'PULL_REQUEST_CLOSED':
         return '''
          $prAuthor
-        $prTitle
+         $prTitle
          $prDate
       ''';
       default:
@@ -126,7 +127,7 @@ void main() async {
         "rich_text": [
           {
             'type': 'text',
-            'text': {'content': commitList ?? 'Default Author'}
+            'text': {'content': commitListFormatted ?? 'Default Author'}
           }
         ]
       },
