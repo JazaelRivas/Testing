@@ -21,8 +21,8 @@ jobs:
 
       - name: 'Print Commit List'
         run: |
-          COMMIT_TITLES=$(git log --oneline)
-          echo "Commit Titles: $COMMIT_TITLES"
+          COMMIT_LIST=$(git log --oneline)
+          echo "Commit Titles: $COMMIT_LIST"
           echo "COMMIT_LIST=$COMMIT_LIST" >> $GITHUB_ENV
 
       - name: 'Set up Flutter'
