@@ -38,7 +38,7 @@ jobs:
       - name: Grant execute permissions
         run: chmod +x .github/notion-version/merge-info.dart
 
-     - name: Extraer títulos de commits
+      - name: Extraer títulos de commits
        id: extract-titles
        run: |
           PR_NUMBER=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
