@@ -37,22 +37,18 @@ jobs:
 
       - name: Grant execute permissions
         run: chmod +x .github/notion-version/merge-info.dart
-      
-      - name: Get Commit Messages
-        id: commit_messages
-        run: |
-          COMMIT_MESSAGES=""
-          for commit in $(git rev-list --reverse "${{ github.event.before }}..${{ github.sha }}"); do
-          COMMIT_MESSAGES="$COMMIT_MESSAGES$(git log --format=%B -n 1 $commit)%0A"
-          done
-          echo "::set-output name=commit_messages::$COMMIT_MESSAGES"
 
+      - name: Get Commit Titles
+        id: commit_titles
+        run: |
+          COMMIT_TITLES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
+          echo "::set-output name=commit_titles::${COMMIT_TITLES}"
 
       - name: Send Commit Notification to Notion
         run: dart .github/notion-version/merge-info.dart
         env:
           ACTION: MERGE
-          COMMIT_MESSAGES: ${{ steps.commit_messages.outputs.commit_messages }}
+          COMMIT_TITLES: ${{ steps.commit_titles.outputs.commit_titles }}
           PR_AUTHOR: ${{ steps.pr_details.outputs.author }}
           PR_TITLE: ${{ steps.pr_details.outputs.title }}
           PR_DATE: ${{ steps.pr_details.outputs.date }}
