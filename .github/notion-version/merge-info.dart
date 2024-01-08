@@ -89,7 +89,6 @@ void main() async {
 
   String messageContent = getMessageContent();
 
-  print(notionSecret);
   final headers = {
     'Authorization': 'Bearer $notionSecret',
     'Content-Type': 'application/json',
