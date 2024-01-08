@@ -9,7 +9,7 @@ void main() async {
   String databaseId = '';
   Map<String, String> envVariables = Platform.environment;
   final action = envVariables['ACTION'];
-  final commitMessage = envVariables['COMMIT_TITLES'];
+  final commitMessage = envVariables['COMMIT_LIST'];
   final prTitle = envVariables['PR_TITLE'];
   final prAuthor = envVariables['PR_AUTHOR'];
   final prDate = envVariables['PR_DATE'];
@@ -123,7 +123,7 @@ void main() async {
         "title": [
           {
             'type': 'text',
-            'text': {'content': prTitle ?? 'Default Title '}
+            'text': {'content': prTitle ?? 'Default Title'}
           }
         ]
       },
