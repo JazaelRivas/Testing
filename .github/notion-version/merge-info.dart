@@ -39,45 +39,44 @@ void main() async {
     return {'notionSecret': notionSecret, 'databaseId': databaseId};
   }
 
- Future<String> getCommitTitles() async {
-  final List<String> commitTitles = [];
+  Future<String> getCommitTitles() async {
+    final List<String> commitTitles = [];
 
-  try {
-    final ProcessResult result = await Process.run(
-      'git',
-      [
-        'log',
-        '--pretty=format:%s',
-        '${envVariables['GITHUB_SHA'] ?? ''}.${envVariables['GITHUB_SHA'] ?? ''}'
-      ],
-      stdoutEncoding: utf8,
-      stderrEncoding: utf8,
-    );
+    try {
+      final ProcessResult result = await Process.run(
+        'git',
+        [
+          'log',
+          '--pretty=format:%s',
+          '${envVariables['GITHUB_SHA'] ?? ''}^..${envVariables['GITHUB_SHA'] ?? ''}'
+        ],
+        stdoutEncoding: utf8,
+        stderrEncoding: utf8,
+      );
 
-    if (result.exitCode == 0) {
-      final String output = result.stdout.toString();
-      commitTitles.addAll(output.split('\n').where((line) => line.isNotEmpty));
+      if (result.exitCode == 0) {
+        final String output = result.stdout.toString();
+        commitTitles
+            .addAll(output.split('\n').where((line) => line.isNotEmpty));
 
-      // Filtrar solo los commits del pull request actual
-      final List<String> prCommits = [];
-      for (String commit in commitTitles) {
-        if (commit.contains('Merge pull request') || commit.contains('fix:')) {
-          prCommits.add(commit);
+        // Filtrar solo los commits del pull request actual
+        final List<String> prCommits = [];
+        for (String commit in commitTitles) {
+          if (commit.startsWith('fix:')) {
+            prCommits.add(commit);
+          }
         }
+
+        return prCommits.join('%0A');
+      } else {
+        print('Error getting commit titles: ${result.stderr}');
       }
-
-      return prCommits.join('%0A');
-    } else {
-      print('Error getting commit titles: ${result.stderr}');
+    } catch (error) {
+      print('Error getting commit titles: $error');
     }
-  } catch (error) {
-    print('Error getting commit titles: $error');
+
+    return '';
   }
-
-  return '';
-}
-
-
 
   final commitMessages = await getCommitTitles();
 
