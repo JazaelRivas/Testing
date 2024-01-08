@@ -27,16 +27,22 @@ jobs:
       - name: Get Dart dependencies
         run: dart pub get
 
-      - name: Obtener información del PR
+      - name: Extract commit titles
+        id: extract-titles
         run: |
-            PR_URL=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
-            COMMITS_URL="${PR_URL}/commits"
+          # Get the SHA of the base commit of the pull request
+          BASE_COMMIT_SHA=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}" \
+            | jq -r '.base.sha')
 
-            COMMITS=$(curl -s "$COMMITS_URL" | jq -r '.[].commit.message')
+          echo "Initial Commit SHA: $BASE_COMMIT_SHA"
 
-            echo "Títulos de los commits en el PR:"
-            echo "$COMMIT_TITLES"
+          # Get the commit titles from the base commit to the current commit
+          COMMIT_TITLES=$(git rev-list --reverse ${{ github.sha }}..$BASE_COMMIT_SHA \
+            | xargs -I {} git log --format="%H %s" -n 1 {})
 
+          echo "Commit Titles: $COMMIT_TITLES"
+          echo "::set-output name=commit_titles::$COMMIT_TITLES"
 
       - name: Grant execute permissions
         run: chmod +x .github/notion-version/merge-info.dart
