@@ -70,15 +70,12 @@ void main() async {
 
     switch (action) {
       case 'MERGE':
-        // Split the commitMessage into individual commit titles
         List<String> commitTitles = commitMessage
                 ?.split('\n')
                 ?.map((e) => e.trim())
                 ?.where((e) => e.isNotEmpty)
                 ?.toList() ??
             [];
-
-        // Construct the message with each commit title on a new line
         String commitsContent = commitTitles.join('\n');
 
         return '''
@@ -88,7 +85,7 @@ void main() async {
      $commitsContent
      ''';
       case 'PULL_REQUEST_CLOSED':
-        // Similar processing for the PULL_REQUEST_CLOSED action
+       
         List<String> commitTitles = commitMessage
                 ?.split('\n')
                 ?.map((e) => e.trim())
