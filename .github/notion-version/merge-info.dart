@@ -58,9 +58,6 @@ void main() async {
   notionSecret = environmentVariables['notionSecret'] ?? '';
   databaseId = environmentVariables['databaseId'] ?? '';
 
-  print('notionSecret: $notionSecret');
-  print('databaseId: $databaseId');
-
   final appVersion = await getAppVersion();
 
   String getMessageContent() {
@@ -71,18 +68,16 @@ void main() async {
     switch (action) {
       case 'MERGE':
         return '''
-        <b>🤖 PR Merged! ch 🔥</b>
-        <b>Author:</b> $prAuthor
-        <b>Title:</b> $prTitle
-        <b>Date:</b> $prDate
-        <b>Commit:</b> $commitList
+        $prAuthor
+        $prTitle
+        $prDate
+        $commitList
       ''';
       case 'PULL_REQUEST_CLOSED':
         return '''
-        <b>🤖 Pull Request Closed! 🚀</b>
-        <b>Author:</b> $prAuthor
-        <b>Title:</b> $prTitle
-        <b>Date:</b> $prDate
+         $prAuthor
+        $prTitle
+         $prDate
       ''';
       default:
         throw Exception('Unsupported action: $action');
@@ -91,7 +86,6 @@ void main() async {
 
   String messageContent = getMessageContent();
 
-  print(notionSecret);
   final headers = {
     'Authorization': 'Bearer $notionSecret',
     'Content-Type': 'application/json',
@@ -123,7 +117,7 @@ void main() async {
         "rich_text": [
           {
             'type': 'text',
-            'text': {'content': "Supervisor App"}
+            'text': {'content': "App Supervisor"}
           }
         ]
       },
@@ -155,9 +149,7 @@ void main() async {
   };
 
   try {
-    print('Commit Titles to be sent to Notion:');
-    print(commitList);
-
+   
     final response = await http.post(
       Uri.parse(notionApiUrl),
       headers: headers,
