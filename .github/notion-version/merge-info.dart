@@ -13,6 +13,7 @@ void main() async {
   final prAuthor = envVariables['PR_AUTHOR'];
   final prDate = envVariables['PR_DATE'];
   final prNumber = envVariables['PR_NUMBER'];
+  final prDescription = envVariables['PR_DESCRIPTION'];
   final notionDB = envVariables['NOTION_DB'];
   final notionSecret = envVariables['NOTION_SECRET'];
 
@@ -46,6 +47,7 @@ void main() async {
         $prTitle
         $prDate
         $commitListFormatted 
+        $prDescription
       ''';
       case 'PULL_REQUEST_CLOSED':
         return '''
@@ -116,6 +118,14 @@ void main() async {
           {
             'type': 'text',
             'text': {'content': prDate ?? 'Default Date'}
+          }
+        ]
+      },
+       "Descripcion": {
+        "rich_text": [
+          {
+            'type': 'text',
+            'text': {'content': prDescription ?? 'Default Date'}
           }
         ]
       },
