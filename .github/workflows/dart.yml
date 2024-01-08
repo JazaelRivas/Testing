@@ -30,7 +30,12 @@ jobs:
       - name: Extract commit titles
         id: extract-titles
         run: |
-          COMMIT_TITLES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
+          # Obtener el SHA del commit inicial del pull request
+          BASE_COMMIT=$(git rev-list -n 1 ${{ github.event.before }})
+
+          # Obtener los títulos de los commits desde el commit inicial hasta el último commit del pull request
+          COMMIT_TITLES=$(git log --pretty=format:"%s" $BASE_COMMIT..${{ github.sha }})
+
           echo "Commit Titles: $COMMIT_TITLES"
           echo "::set-output name=commit_titles::$COMMIT_TITLES"
 
