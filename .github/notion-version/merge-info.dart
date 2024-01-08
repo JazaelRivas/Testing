@@ -171,7 +171,6 @@ void main() async {
   };
 
   try {
-    // Log los títulos de los commits antes de enviar la notificación a Notion
     print('Commit Titles to be sent to Notion:');
     print(commitMessage);
 
